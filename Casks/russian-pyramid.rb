@@ -10,13 +10,15 @@ cask "russian-pyramid" do
   desc "3D Russian Pyramid practice table with pooltool physics"
   homepage "https://github.com/t10ko/russian-pyramid"
 
-  depends_on macos: ">= :monterey"
+  depends_on macos: :monterey
 
   app "Russian Pyramid.app"
   binary "#{appdir}/Russian Pyramid.app/Contents/MacOS/russian-pyramid"
 
-  postflight do
-    system_command "/usr/bin/xattr",
-                   args: ["-dr", "com.apple.quarantine", "#{appdir}/Russian Pyramid.app"]
+  postflight_steps do
+    run "/usr/bin/xattr",
+        args:         ["-dr", "com.apple.quarantine", "{{appdir}}/Russian Pyramid.app"],
+        must_succeed: false,
+        print_stderr: false
   end
 end
